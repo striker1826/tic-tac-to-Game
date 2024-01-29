@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GameBoard from "./components/GameBoard";
 import Player from "./components/Player";
 import Log from "./components/Log";
@@ -56,7 +56,6 @@ function deriveWinner(gameBoard, players) {
 
 function App() {
   const [players, setPlayers] = useState(PLAYERS);
-
   const [gameTurns, setGameTurns] = useState([]);
   const activePlayer = deriveActivePlayer(gameTurns);
   const gameBoard = deriveGameBoard(gameTurns);
@@ -72,6 +71,7 @@ function App() {
   }
 
   function handleRestart() {
+    setPlayers(PLAYERS);
     setGameTurns([]);
   }
 
@@ -89,13 +89,15 @@ function App() {
       <div id="game-container">
         <ol id="players" className="highlight-player">
           <Player
-            initialName={PLAYERS.X}
+            playerName={players["X"]}
+            onChangePlayerName={setPlayers}
             symbol="X"
             isActive={activePlayer === "X"}
             onChangeName={handlePlayerNameChange}
           />
           <Player
-            initialName={PLAYERS.O}
+            playerName={players["O"]}
+            onChangePlayerName={setPlayers}
             symbol="O"
             isActive={activePlayer === "O"}
             onChangeName={handlePlayerNameChange}
